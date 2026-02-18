@@ -1,139 +1,153 @@
 <!DOCTYPE html>
-<html lang="en" dir="rtl">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>جولة لعازار ٢٠٢٦</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-/* General Styles */
+/* General Body */
 body {
     font-family: 'Cairo', Arial, sans-serif;
-    background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    margin: 0;
 }
 
+/* Container */
 .container {
-    background: white;
-    padding: 40px 30px;
-    border-radius: 15px;
-    width: 100%;
-    max-width: 500px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-    transition: transform 0.3s ease;
+    background: #ffffff;
+    width: 90%;
+    max-width: 480px;
+    border-radius: 20px;
+    padding: 35px 25px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .container:hover {
     transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
 }
 
 h2 {
     text-align: center;
+    color: #0072ff;
     margin-bottom: 30px;
-    color: #2d89ef;
-    font-weight: 700;
+    font-size: 26px;
 }
 
-/* Form Elements */
+/* Form Labels and Inputs */
 form label {
+    display: block;
     font-weight: 600;
     margin-top: 15px;
-    display: block;
-    color: #555;
+    color: #333;
+    font-size: 15px;
 }
 
 input, select, textarea {
     width: 100%;
-    padding: 12px 15px;
-    margin-top: 5px;
-    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 6px;
+    border-radius: 10px;
     border: 1px solid #ccc;
     font-size: 15px;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
 input:focus, select:focus, textarea:focus {
-    border-color: #2d89ef;
-    box-shadow: 0 0 5px rgba(45,137,239,0.3);
+    border-color: #0072ff;
+    box-shadow: 0 0 10px rgba(0,114,255,0.3);
     outline: none;
 }
 
 textarea {
-    min-height: 80px;
+    min-height: 90px;
     resize: vertical;
 }
 
+/* Button */
 button {
     width: 100%;
-    padding: 12px;
-    margin-top: 20px;
+    padding: 15px;
+    margin-top: 25px;
     border: none;
-    border-radius: 8px;
-    background: #2d89ef;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
+    border-radius: 12px;
+    background: #0072ff;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 button:hover {
-    background: #1b5fa7;
+    background: #005bcc;
     transform: translateY(-2px);
 }
 
+/* Response Message */
 #responseMessage {
     text-align: center;
-    margin-top: 15px;
     font-weight: 600;
     color: green;
+    margin-top: 15px;
+    font-size: 16px;
 }
 
-/* Mobile Responsiveness */
-@media(max-width: 600px){
+/* Mobile adjustments */
+@media(max-width: 500px){
     .container {
         padding: 30px 20px;
     }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    button {
+        font-size: 16px;
+    }
 }
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <div class="container">
     <h2>جولة لعازار ٢٠٢٦</h2>
-
     <form id="tripForm">
-        <label>الإسم الكامل : </label>
-        <input type="text" name="name" placeholder="أدخل إسمك الكامل" required>
+        <label>Full Name</label>
+        <input type="text" name="name" placeholder="Enter your full name" required>
 
-        <label>الأخويّة التي أنتمي لها</label>
+        <label>Group</label>
         <select name="group" required>
-            <option value="">إختر الأخوية</option>
-            <option value="Tala2e3">طلائع العذراء</option>
-            <option value="Chabibe"> شبيبة العذراء</option>
+            <option value="">Select Group</option>
+            <option value="Tala2e3">Tala2e3</option>
+            <option value="Chabibe">Chabibe</option>
         </select>
 
-        <label>هل سأكون حاضر؟</label>
+        <label>Will you attend?</label>
         <select name="confirmed" required>
-            <option value="Yes">نعم</option>
-            <option value="No">لا</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
         </select>
 
-        <label>ملاحظات في فريقي</label>
-        <textarea name="comments" placeholder="أيّة ملاحظات..."></textarea>
+        <label>Comments</label>
+        <textarea name="comments" placeholder="Any notes or comments..."></textarea>
 
         <button type="submit">Submit</button>
     </form>
-
     <div id="responseMessage"></div>
 </div>
 
 <script>
-document.getElementById("tripForm").addEventListener("submit", async function(e) {
+document.getElementById("tripForm").addEventListener("submit", async function(e){
     e.preventDefault();
 
     const formData = new FormData(this);
