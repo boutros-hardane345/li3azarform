@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>جولة لعازار ٢٠٢٦</title>
+<style>
+/* General Styles */
+body {
+    font-family: 'Cairo', Arial, sans-serif;
+    background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2d89ef;
+    font-weight: 700;
+}
+
+/* Form Elements */
+form label {
+    font-weight: 600;
+    margin-top: 15px;
+    display: block;
+    color: #555;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #2d89ef;
+    box-shadow: 0 0 5px rgba(45,137,239,0.3);
+    outline: none;
+}
+
+textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 8px;
+    background: #2d89ef;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #1b5fa7;
+    transform: translateY(-2px);
+}
+
+#responseMessage {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: 600;
+    color: green;
+}
+
+/* Mobile Responsiveness */
+@media(max-width: 600px){
+    .container {
+        padding: 30px 20px;
+    }
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <h2>جولة لعازار ٢٠٢٦</h2>
+
+    <form id="tripForm">
+        <label>الإسم الكامل : </label>
+        <input type="text" name="name" placeholder="أدخل إسمك الكامل" required>
+
+        <label>الأخويّة التي أنتمي لها</label>
+        <select name="group" required>
+            <option value="">إختر الأخوية</option>
+            <option value="Tala2e3">طلائع العذراء</option>
+            <option value="Chabibe"> شبيبة العذراء</option>
+        </select>
+
+        <label>هل سأكون حاضر؟</label>
+        <select name="confirmed" required>
+            <option value="Yes">نعم</option>
+            <option value="No">لا</option>
+        </select>
+
+        <label>ملاحظات في فريقي</label>
+        <textarea name="comments" placeholder="أيّة ملاحظات..."></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="responseMessage"></div>
+</div>
+
+<script>
+document.getElementById("tripForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+
+    const response = await fetch('/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+    document.getElementById("responseMessage").innerText = result.message;
+    this.reset();
+});
+</script>
+
+</body>
+</html>
